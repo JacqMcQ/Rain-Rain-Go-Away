@@ -1,44 +1,43 @@
-const APIKey = 'f8cccf3bc8c79d27312f3bbb77168586';
+document.addEventListener('DOMContentLoaded', function() {
+    const APIKey = 'f8cccf3bc8c79d27312f3bbb77168586';
 
-var button = document.querySelector('.button'); 
-var inputValue = document.querySelector('.inputValue'); 
-var nameElement = document.querySelector('.name'); 
-var descElement = document.querySelector('.desc'); 
-var tempElement = document.querySelector('.temp'); 
+    const weatherForm = document.getElementById('weatherForm');
+    const cityInput = document.getElementById('cityInput');
+    const nameElement = document.querySelector('.name');
+    const descElement = document.querySelector('.desc');
+    const tempElement = document.querySelector('.temp');
 
-const queryURLgeo = `https://api.openweathermap.org/data/2.5/forecast?lat=40.7128&lon=74.0060&appid=${APIKey}`;
-const queryURLcity = `https://api.openweathermap.org/data/2.5/forecast?q=Gillette&appid=${APIKey}`;
+    weatherForm.addEventListener('submit', function(event) {
+        event.preventDefault(); 
 
+        const city = cityInput.value.trim();
 
-fetch(queryURLcity)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
+        if (city) {
+            const queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
+
+            fetch(queryURL)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    updateUI(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching weather data:', error);
+                    alert('Failed to fetch weather data. Please try again.');
+                });
+        } else {
+            alert('Please enter a city name.');
         }
-        return response.json();
-    })
-    .then(data => {
-        console.log(data);
-        nameElement.textContent = data.city.name;
-        descElement.textContent = data.list[0].weather[0].description;
-        tempElement.textContent = `${Math.round(data.list[0].main.temp - 273.15)}°C`; 
-    })
-    .catch(error => {
-        console.error('Error fetching weather data:', error);
     });
 
-fetch(queryURLgeo)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log(data);
-        
-    })
-    .catch(error => {
-        console.error('Error fetching weather data:', error);
-    });
-
+    function updateUI(data) {
+        nameElement.textContent = data.name;
+        descElement.textContent = data.weather[0].description;
+        tempElement.textContent = `${Math.round(data.main.temp - 273.15)}°C`; 
+    }
+});
