@@ -1,20 +1,21 @@
-*{
+* {
     margin: 0;
     padding: 0;
-    box-sizing: vorder-box;
-
+    box-sizing: border-box; 
 }
 
-body{
-    font-family:Verdana, Geneva, Tahoma, sans-serif
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: #f0f0f0; 
+    padding: 20px; 
 }
 
 .input {
     text-align: center;
-    margin: 100px, 0
+    margin-top: 100px; 
 }
 
-input [type="text"] {
+input[type="text"] {
     height: 50px;
     width: 600px;
     background: rgb(129, 129, 204);
@@ -23,10 +24,11 @@ input [type="text"] {
     font-size: 20px;
     border: none;
     border-radius: 2px;
-    padding: 10px, 10px;
+    padding: 10px; 
+    margin-right: 10px;
 }
 
-input [type="submit"] {
+input[type="submit"] {
     height: 50px;
     width: 100px;
     background: rgb(129, 129, 204);
@@ -35,8 +37,29 @@ input [type="submit"] {
     font-size: 20px;
     border: none;
     border-radius: 2px;
+    cursor: pointer; 
 }
 
 .display {
     text-align: center;
+    margin-top: 20px; 
+}
+
+.history-list {
+    list-style-type: none;
+    border: solid 3px orange;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.history-item {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.history-item:hover {
+    background-color: #e0e0e0;
 }
