@@ -8,8 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const tempElement = document.querySelector('.temp');
     const historyList = document.querySelector('.history-list');
 
+   
+    renderInitialSearchHistory();
+
     weatherForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form submission
+        event.preventDefault(); 
 
         const city = cityInput.value.trim();
 
@@ -40,31 +43,49 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateUI(data) {
         nameElement.textContent = data.name;
         descElement.textContent = data.weather[0].description;
-        tempElement.textContent = `${Math.round(data.main.temp - 273.15)}°C`; // Convert Kelvin to Celsius
+        tempElement.textContent = `${Math.round(data.main.temp - 273.15)}°C`; 
     }
 
     function addToHistory(city) {
-       
         if (isCityInHistory(city)) {
-            return; 
+            return;
         }
 
         const listItem = document.createElement('li');
         listItem.textContent = city;
         listItem.classList.add('history-item');
 
-       
         listItem.addEventListener('click', function() {
             getWeatherForCity(city);
         });
 
-        
         historyList.appendChild(listItem);
+
+        
+        const cities = JSON.parse(localStorage.getItem('cities')) || [];
+        cities.push(city);
+        localStorage.setItem('cities', JSON.stringify(cities));
     }
 
     function isCityInHistory(city) {
         const existingCities = Array.from(historyList.children);
         return existingCities.some(item => item.textContent.toLowerCase() === city.toLowerCase());
+    }
+
+    function renderInitialSearchHistory() {
+        historyList.innerHTML = '';
+
+        const cities = JSON.parse(localStorage.getItem('cities')) || [];
+
+        cities.forEach(city => {
+            const listItem = document.createElement('li');
+            listItem.textContent = city;
+            listItem.classList.add('history-item');
+            listItem.addEventListener('click', function() {
+                getWeatherForCity(city);
+            });
+            historyList.appendChild(listItem);
+        });
     }
 
     function getWeatherForCity(city) {
