@@ -11,35 +11,38 @@ const weatherIcon = document.querySelector('.weather-icon');
 const forecastContainer = document.querySelector('.forecast-cards');
 const historyList = document.querySelector('.history-list');
 
-// Load initial search history
+
 renderInitialSearchHistory();
 
-weatherForm.addEventListener('submit', function(event) {
+weatherForm.addEventListener('submit', async function(event) {
     event.preventDefault();
 
     const city = cityInput.value.trim();
 
     if (city) {
-        const currentWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
-        const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${APIKey}`;
+        try {
+            const currentWeatherData = await getWeatherData(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`);
+            const forecastData = await getWeatherData(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${APIKey}`);
 
-        Promise.all([
-            fetch(currentWeatherURL).then(response => response.json()),
-            fetch(forecastURL).then(response => response.json())
-        ])
-        .then(([currentWeatherData, forecastData]) => {
             updateCurrentWeather(currentWeatherData);
             updateForecast(forecastData);
             addToHistory(city);
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Error fetching weather data:', error);
             alert('Failed to fetch weather data. Please try again.');
-        });
+        }
     } else {
         alert('Please enter a city name.');
     }
 });
+
+async function getWeatherData(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error('No Network response');
+    }
+    return response.json();
+}
 
 function updateCurrentWeather(data) {
     nameElement.textContent = data.name;
@@ -114,20 +117,15 @@ function renderInitialSearchHistory() {
     });
 }
 
-function getWeatherForCity(city) {
-    const currentWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
-    const forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${APIKey}`;
+async function getWeatherForCity(city) {
+    try {
+        const currentWeatherData = await getWeatherData(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`);
+        const forecastData = await getWeatherData(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${APIKey}`);
 
-    Promise.all([
-        fetch(currentWeatherURL).then(response => response.json()),
-        fetch(forecastURL).then(response => response.json())
-    ])
-    .then(([currentWeatherData, forecastData]) => {
         updateCurrentWeather(currentWeatherData);
         updateForecast(forecastData);
-    })
-    .catch(error => {
+    } catch (error) {
         console.error('Error fetching weather data:', error);
         alert('Failed to fetch weather data. Please try again.');
-    });
+    }
 }
