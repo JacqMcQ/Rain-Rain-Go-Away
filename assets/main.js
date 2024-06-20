@@ -14,7 +14,7 @@ const historyList = document.querySelector('.history-list');
 
 renderInitialSearchHistory();
 
-weatherForm.addEventListener('submit', async function(event) {
+weatherForm.addEventListener('submit', async function (event) {
     event.preventDefault();
 
     const city = cityInput.value.trim();
@@ -45,9 +45,14 @@ async function getWeatherData(url) {
 }
 
 function updateCurrentWeather(data) {
+    const celsiusTemp = Math.round(data.main.temp - 273.15);
+    const fahrenheitTemp = Math.round((celsiusTemp * 9 / 5) + 32);
+
     nameElement.textContent = data.name;
     descElement.textContent = data.weather[0].description;
-    tempElement.textContent = `${Math.round(data.main.temp - 273.15)}°C`;
+    tempElement.innerHTML = `
+        <span class="celsius">${celsiusTemp}°C</span> / 
+        <span class="fahrenheit">${fahrenheitTemp}°F</span>`;
     humidityElement.textContent = `Humidity: ${data.main.humidity}%`;
     windSpeedElement.textContent = `Wind Speed: ${data.wind.speed} m/s`;
 
@@ -66,13 +71,19 @@ function updateForecast(data) {
         const date = new Date(forecast.dt * 1000);
         const weekday = date.toLocaleDateString('en-US', { weekday: 'short' });
 
+        const celsiusTemp = Math.round(forecast.main.temp - 273.15);
+        const fahrenheitTemp = Math.round((celsiusTemp * 9 / 5) + 32);
+
         const forecastCard = document.createElement('div');
         forecastCard.classList.add('forecast-card');
         forecastCard.innerHTML = `
             <h3>${weekday}</h3>
             <img src="https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png" alt="${forecast.weather[0].description}">
             <p>${forecast.weather[0].description}</p>
-            <p>${Math.round(forecast.main.temp - 273.15)}°C</p>
+            <p>
+                <span class="celsius">${celsiusTemp}°C</span> /
+                <span class="fahrenheit">${fahrenheitTemp}°F</span>
+            </p>
         `;
         forecastContainer.appendChild(forecastCard);
     });
@@ -86,7 +97,7 @@ function addToHistory(city) {
     const listItem = document.createElement('li');
     listItem.textContent = city;
     listItem.classList.add('history-item');
-    listItem.addEventListener('click', function() {
+    listItem.addEventListener('click', function () {
         getWeatherForCity(city);
     });
     historyList.appendChild(listItem);
@@ -110,7 +121,7 @@ function renderInitialSearchHistory() {
         const listItem = document.createElement('li');
         listItem.textContent = city;
         listItem.classList.add('history-item');
-        listItem.addEventListener('click', function() {
+        listItem.addEventListener('click', function () {
             getWeatherForCity(city);
         });
         historyList.appendChild(listItem);
