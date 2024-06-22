@@ -134,6 +134,7 @@ input[type="submit"]:hover {
     background-color: var(--primary-background);
     border-radius: 5px;
     margin-bottom: 5px;
+
     align-items: center;
     color: var(--placeholder-color);
 }
@@ -167,7 +168,11 @@ input[type="submit"]:hover {
     .history-list {
         margin-left: 0;
         float: none;
-        ;
         margin: 0 auto;
     }
+}
+.history-container {
+    margin-left: 0;
+    margin: 0 auto;
+    text-align: center;
 }

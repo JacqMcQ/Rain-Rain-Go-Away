@@ -36,6 +36,6 @@ Click on any city in the search history list to quickly fetch and display weathe
 ## References:
 
 This application utilizes the OpenWeatherMap API to fetch weather data. In order to fetch the data, an account was extablished and a unique APIKey was appointed for linking to the server. 
-The use of AI technology was used to debug the 404 errors reeived when attempting to fetch from the API using the city root value. AI was also used to support the use of the input field for the city to assist with eliminating any white space in order to prevent the submission from throwing an error. API fetch call research retrieved from https://openweathermap.org/forecast5#min. 
+The use of AI technology was used to debug the 404 errors received when attempting to fetch from the API using the city root value. AI was also used to support the use of the input field for the city to assist with eliminating any white space in order to prevent the submission from throwing an error. API fetch call research retrieved from https://openweathermap.org/forecast5#min. 
 
 Icon usedon loading page was retrieved from: https://www.istockphoto.com/photos/sunny-weather

@@ -9,6 +9,7 @@ const humidityElement = document.querySelector('.humidity');
 const windSpeedElement = document.querySelector('.wind-speed');
 const weatherIcon = document.querySelector('.weather-icon');
 const forecastContainer = document.querySelector('.forecast-cards');
+const historyContainer = document.querySelector('.history-container');
 const historyList = document.querySelector('.history-list');
 
 
@@ -27,6 +28,8 @@ weatherForm.addEventListener('submit', async function (event) {
             updateCurrentWeather(currentWeatherData);
             updateForecast(forecastData);
             addToHistory(city);
+            cityInput.value = '';
+            
         } catch (error) {
             console.error('Error fetching weather data:', error);
             alert('Failed to fetch weather data. Please try again.');
