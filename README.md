@@ -4,6 +4,11 @@ A 5-day weather forecast dashboard
 ## Introduction:
 Welcome to Rain-Rain Go Away, a web application that provides current weather and 5-day forecast information for cities worldwide. This application utilizes the OpenWeatherMap API to fetch weather data, displaying it in a user-friendly interface.
 
+You can view the deployed website at https://jacqmcq.github.io/Rain-Rain-Go-Away/
+
+![alt text](assets/photos/demo-weatherAPI.gif)
+
+
 ## Features: 
 Current Weather Display: Shows current temperatures in Celsius and Fahrenheit; having family in Canada, I find having both readily available, useful for personal use. Also included is the description, humidity, and wind speed for the searched city. Celsius and Fahrenheit are displayed on the card as I have a lot of family living in Canada and wanted to offer this easy conversion on my application. 
 
